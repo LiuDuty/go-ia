@@ -12,7 +12,7 @@ export class ZaiService {
   constructor(private http: HttpClient) {
     const baseUrl = window.location.hostname.includes('localhost')
       ? 'http://127.0.0.1:8000'
-      : 'https://chatzai.onrender.com';
+      : 'https://back.go.ia.onrender.com';
 
     // remove barra final se houver
     this.backendUrl = baseUrl.replace(/\/$/, '');
