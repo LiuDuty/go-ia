@@ -1,23 +1,53 @@
-<div class="chat-box" #chatBox>
-  <div *ngFor="let bloco of conversas" class="mensagem-bloco">
-    <div class="usuario">🧑‍💬 Você:</div>
-    <div class="texto usuario-msg">{{ bloco.pergunta }}</div>
+<div class="main-container">
+  <!-- Header with Logo and Title -->
+  <header class="app-header">
+    <div class="logo-container">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="12" fill="url(#paint0_linear)"/>
+        <path d="M12 28L18.5 12H21.5L28 28H24.5L23 24H17L15.5 28H12ZM18 21H22L20 15.5L18 21Z" fill="white"/>
+        <defs>
+          <linearGradient id="paint0_linear" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#4F46E5"/>
+            <stop offset="1" stop-color="#9333EA"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <h1>IA4ALL</h1>
+    </div>
+  </header>
 
-    <div class="assistente">🤖 Assistente:</div>
-    <div class="texto assistente-msg" [innerHTML]="bloco.resposta"></div>
+  <!-- Input Area (Moved to Top) -->
+  <div class="input-area">
+    <input
+      type="text"
+      [(ngModel)]="texto"
+      placeholder="Digite sua mensagem..."
+      (keyup.enter)="enviar()"
+      [disabled]="enviando"
+    />
+    <button (click)="enviar()" [disabled]="enviando">
+      <span *ngIf="!enviando">Enviar</span>
+      <span *ngIf="enviando" class="loader"></span>
+    </button>
   </div>
 
-  <div *ngIf="enviando" class="digitando">
-    🤖 Assistente está digitando<span class="pontos">...</span>
+  <!-- Chat History (Messages) -->
+  <div class="chat-box" #chatBox>
+    <div *ngIf="enviando" class="digitando-indicator">
+      🤖 IA4ALL está digitando<span class="pontos">...</span>
+    </div>
+
+    <!-- Loop will display messages. Logic change in TS will ensure newest is index 0 -->
+    <div *ngFor="let bloco of conversas" class="mensagem-bloco fadeIn">
+      <div class="usuario-row">
+        <div class="avatar usuario-avatar">🧑</div>
+        <div class="texto usuario-msg">{{ bloco.pergunta }}</div>
+      </div>
+
+      <div class="assistente-row">
+        <div class="avatar assistente-avatar">🤖</div>
+        <div class="texto assistente-msg" [innerHTML]="bloco.resposta"></div>
+      </div>
+    </div>
   </div>
-</div>
-<div class="input-area">
-  <input
-    type="text"
-    [(ngModel)]="texto"
-    placeholder="Digite sua mensagem..."
-    (keyup.enter)="enviar()"
-    [disabled]="enviando"
-  />
-  <button (click)="enviar()" [disabled]="enviando">Enviar</button>
 </div>
